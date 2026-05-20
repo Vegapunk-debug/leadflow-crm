@@ -21,6 +21,10 @@ const leadSchema = new mongoose.Schema({
   followUp: {
     type: Date,
     default: null,
+  },
+  assignedTo: {
+    type: String,
+    default: 'default_user'
   }
 }, { timestamps: true });
 
