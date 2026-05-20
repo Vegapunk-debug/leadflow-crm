@@ -1,4 +1,4 @@
-<div align="center">
+<div align="right">
   
 ```
 ██╗     ███████╗ █████╗ ██████╗ ███████╗██╗      ██████╗ ██╗    ██╗
@@ -8,7 +8,10 @@
 ███████╗███████╗██║  ██║██████╔╝██║     ███████╗╚██████╔╝╚███╔███╔╝
 ╚══════╝╚══════╝╚═╝  ╚═╝╚═════╝ ╚═╝     ╚══════╝ ╚═════╝  ╚══╝╚══╝
 ```
- 
+ </div>
+
+<div align="center">
+
 **A lightweight CRM for sales reps who move fast.**  
 Track leads. Log discussions. Never miss a follow-up.
  
