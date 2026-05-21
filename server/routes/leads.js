@@ -60,4 +60,20 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+//Delete lead
+router.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const lead = await Lead.findByIdAndDelete(id);
+        if (!lead) return res.status(404).json({ message: 'Lead not found' });
+
+        await Discussion.deleteMany({ lead: id });
+        console.log('Lead deleted successfully');
+        res.json({ message: 'Lead deleted successfully' });
+    } catch (error) {
+        console.log('Error deleting lead:', error.message);
+        res.status(500).json({ message: error.message });
+    }
+});
+
 module.exports = router;
