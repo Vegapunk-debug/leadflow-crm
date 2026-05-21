@@ -43,4 +43,21 @@ router.post('/', async (req, res) => {
     }
 });
 
+//Update a lead
+router.put('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, company, phone, status, followUp, assignedTo } = req.body;
+        if (status && !VALID_STATUSES.includes(status)) {
+            return res.status(400).json({ message: 'Invalid status' });
+        }
+        const lead = await Lead.findByIdAndUpdate(id, { name, company, phone, status, followUp, assignedTo }, { new: true });
+        if (!lead) return res.status(404).json({ message: 'Lead not found' });
+        console.log('Lead updated successfully');
+        res.json(lead);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 module.exports = router;
