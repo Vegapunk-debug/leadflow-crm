@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
         const leads = await Lead.find().sort({ createdAt: -1 });
         const leadsWithDiscussion = await Promise.all(
             leads.map(async (lead) => {
-                const discussions = await Discussion.find({ lead: lead._id }).sort({ createdAt: 1 });
+                const discussions = await Discussion.find({ lead: lead._id }).sort({ createdAt: -1 });
                 return { ...lead.toObject(), discussions };
         }));
 
@@ -47,15 +47,21 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, company, phone, status, followUp, assignedTo } = req.body;
+        const { status } = req.body;
+
         if (status && !VALID_STATUSES.includes(status)) {
             return res.status(400).json({ message: 'Invalid status' });
         }
-        const lead = await Lead.findByIdAndUpdate(id, { name, company, phone, status, followUp, assignedTo }, { new: true });
+
+        const lead = await Lead.findByIdAndUpdate(id, 
+            {$set: req.body},
+            {new: true, runValidators: true}
+        )
         if (!lead) return res.status(404).json({ message: 'Lead not found' });
         console.log('Lead updated successfully');
         res.json(lead);
     } catch (error) {
+        console.log('Error updating lead:', error.message);
         res.status(500).json({ message: error.message });
     }
 });

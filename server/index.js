@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 
 
 const leadRoutes = require('./routes/leads');
+const discussionRoutes = require('./routes/discussions')
 
 dotenv.config();
 connectDB();
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/leads', leadRoutes);
+app.use('/api/discussions', discussionRoutes)
 
 app.get('/', (req, res) => {
     res.json({ message: 'LeadFlow API is running' });
