@@ -1,7 +1,8 @@
 import React from 'react';
+import Logo from './Logo';
 
 function SearchIcon() {
-
+  
   return (
     <svg
       className="search-icon"
@@ -43,10 +44,16 @@ export default function Header({ search, onSearchChange, onAddLead }) {
   return (
     <header className="header">
       <div className="brand">
-        <span className="brand-mark">L</span>
-        <span className="brand-name">LeadFlow</span>
-        <span className="brand-suffix">Pipeline</span>
+        <Logo size={40} />
+        <span className="brand-wordmark">
+          <span className="brand-name">
+            Lead<em>Flow</em>
+          </span>
+          <span className="brand-suffix">Sales Pipeline · 2026</span>
+        </span>
       </div>
+
+      <div className="header-spacer" />
 
       <div className="search-wrap">
         <SearchIcon />
@@ -55,9 +62,13 @@ export default function Header({ search, onSearchChange, onAddLead }) {
           type="search"
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search leads…"
+          placeholder="Search leads, companies…"
           aria-label="Search leads"
         />
+        <span className="search-kbd">
+          <span className="kbd">⌘</span>
+          <span className="kbd">K</span>
+        </span>
       </div>
 
       <button className="btn-primary" onClick={onAddLead} type="button">
