@@ -8,13 +8,21 @@ const VALID_STATUSES = ['New', 'Contacted', 'Qualified', 'Proposal Sent', 'Won',
 //Get all leads
 router.get('/', async (req, res) => {
     try {
-        const leads = await Lead.find().sort({ createdAt: -1 });
+        const { status, search } = req.query;
+        const query = {};
+        if (status && VALID_STATUSES.includes(status)) query.status = status;
+
+        if (search && search.trim()) {
+            query.name = { $regex: search.trim(), $options: 'i' };
+        }
+
+        const leads = await Lead.find(query).sort({ updatedAt: -1 }).lean();
         const leadsWithDiscussion = await Promise.all(
             leads.map(async (lead) => {
-                const discussions = await Discussion.find({ lead: lead._id }).sort({ createdAt: -1 });
-                return { ...lead.toObject(), discussions };
-        }));
-
+                const discussions = await Discussion.find({ lead: lead._id }).sort({ createdAt: -1 }).lean();
+                return { ...lead, discussions };
+            })
+        );
         console.log('Leads fetched successfully');
         res.json(leadsWithDiscussion);
     } catch (error) {
