@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Header from './components/Header';
 import FilterBar from './components/FilterBar';
+import KpiStrip from './components/KpiStrip';
 import LeadList from './components/LeadList';
 import TimelineDialog from './components/TimelineDialog';
 import AddLeadDialog from './components/AddLeadDialog';
@@ -38,6 +39,18 @@ export default function App() {
     const t = setTimeout(() => setDebouncedSearch(search), 220);
     return () => clearTimeout(t);
   }, [search]);
+
+  // focus search input with ⌘K or Ctrl+K shortcut
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        document.querySelector('.search-input')?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const fetchLeads = useCallback(async () => {
     try {
@@ -183,11 +196,16 @@ export default function App() {
           onAddLead={() => setShowAdd(true)}
         />
 
-        <FilterBar
-          active={statusFilter}
-          onChange={setStatusFilter}
-          counts={counts}
-        />
+        <KpiStrip leads={allLeadsForCounts} />
+
+        <div className="toolbar">
+          <span className="toolbar-label">Filter by status</span>
+          <FilterBar
+            active={statusFilter}
+            onChange={setStatusFilter}
+            counts={counts}
+          />
+        </div>
 
         <LeadList
           pinned={pinned}
