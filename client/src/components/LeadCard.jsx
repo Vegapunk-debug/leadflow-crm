@@ -45,6 +45,21 @@ function BellIcon() {
   );
 }
 
+function getInitials(name) {
+  if (!name) return '·';
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function avatarTone(name) {
+  let h = 0;
+  for (let i = 0; i < (name || '').length; i++) {
+    h = (h * 31 + name.charCodeAt(i)) >>> 0;
+  }
+  return (h % 6) + 1;
+}
+
 export default function LeadCard({ lead, onClick, pinned = false }) {
   const lastDiscussion = lead.discussions?.[0];
   const lastNote = lastDiscussion?.note;
@@ -68,6 +83,13 @@ export default function LeadCard({ lead, onClick, pinned = false }) {
       onClick={() => onClick(lead)}
       aria-label={`Open ${lead.name}'s timeline`}
     >
+      <span
+        className={`lead-avatar tone-${avatarTone(lead.name)}`}
+        aria-hidden="true"
+      >
+        {getInitials(lead.name)}
+      </span>
+
       <div className="lead-card-main">
         <div className="lead-card-row">
           <span className="lead-name">{lead.name}</span>
