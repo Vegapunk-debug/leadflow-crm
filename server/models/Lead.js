@@ -1,21 +1,26 @@
 const mongoose = require('mongoose');
 
+const LEAD_STATUSES = ['New', 'Contacted', 'Qualified', 'Proposal Sent', 'Won', 'Lost'];
+
 const leadSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    trim: true,
   },
   company: {
     type: String,
     default: '',
+    trim: true,
   },
   phone: {
     type: String,
     default: '',
+    trim: true,
   },
   status: {
     type: String,
-    enum: ['New', 'Contacted', 'Qualified', 'Proposal Sent', 'Won', 'Lost'],
+    enum: LEAD_STATUSES,
     default: 'New',
   },
   followUp: {
@@ -24,8 +29,12 @@ const leadSchema = new mongoose.Schema({
   },
   assignedTo: {
     type: String,
-    default: 'default_user'
+    default: 'default_user',
+    trim: true,
   }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Lead', leadSchema);
+const Lead = mongoose.model('Lead', leadSchema);
+Lead.LEAD_STATUSES = LEAD_STATUSES;
+
+module.exports = Lead;

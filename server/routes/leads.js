@@ -3,7 +3,7 @@ const router = express.Router();
 const Lead = require('../models/Lead');
 const Discussion = require('../models/Discussion');
 
-const VALID_STATUSES = ['New', 'Contacted', 'Qualified', 'Proposal Sent', 'Won', 'Lost'];
+const VALID_STATUSES = Lead.LEAD_STATUSES;
 
 //Get all leads
 router.get('/', async (req, res) => {
@@ -17,17 +17,21 @@ router.get('/', async (req, res) => {
         }
 
         const leads = await Lead.find(query).sort({ updatedAt: -1 }).lean();
-        const leadsWithDiscussion = await Promise.all(
-            leads.map(async (lead) => {
-                const discussions = await Discussion.find({ lead: lead._id }).sort({ createdAt: -1 }).lean();
-                return { ...lead, discussions };
-            })
-        );
+        
+        // Fetch all discussions in a single query to avoid the N+1 problem
+        const leadIds = leads.map(lead => lead._id);
+        const discussions = await Discussion.find({ lead: { $in: leadIds } }).sort({ createdAt: -1 }).lean();
+        
+        const leadsWithDiscussion = leads.map(lead => ({
+            ...lead,
+            discussions: discussions.filter(d => d.lead.toString() === lead._id.toString())
+        }));
+
         console.log('Leads fetched successfully');
         res.json(leadsWithDiscussion);
     } catch (error) {
         console.log('Error fetching leads:', error.message);
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 
@@ -55,22 +59,25 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { status } = req.body;
+        const { name, company, phone, status, followUp } = req.body;
 
         if (status && !VALID_STATUSES.includes(status)) {
             return res.status(400).json({ message: 'Invalid status' });
         }
 
         const lead = await Lead.findByIdAndUpdate(id, 
-            {$set: req.body},
-            {new: true, runValidators: true}
-        )
+            { name, company, phone, status, followUp },
+            { new: true, runValidators: true }
+        );
         if (!lead) return res.status(404).json({ message: 'Lead not found' });
         console.log('Lead updated successfully');
         res.json(lead);
     } catch (error) {
+        if (error.name === 'CastError') {
+            return res.status(400).json({ message: 'Invalid lead ID format' });
+        }
         console.log('Error updating lead:', error.message);
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 
@@ -85,8 +92,11 @@ router.delete('/:id', async (req, res) => {
         console.log('Lead deleted successfully');
         res.json({ message: 'Lead deleted successfully' });
     } catch (error) {
+        if (error.name === 'CastError') {
+            return res.status(400).json({ message: 'Invalid lead ID format' });
+        }
         console.log('Error deleting lead:', error.message);
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 

@@ -9,11 +9,14 @@ const discussionSchema = new mongoose.Schema({
   note: {
     type: String,
     required: true,
+    trim: true,
   },
   followUp: {
     type: Date,
     default: null,
   }
 }, { timestamps: true });
+
+discussionSchema.index({ lead: 1 });
 
 module.exports = mongoose.model('Discussion', discussionSchema);

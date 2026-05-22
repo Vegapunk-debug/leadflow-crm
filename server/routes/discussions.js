@@ -21,10 +21,8 @@ router.post('/:leadId', async (req, res) => {
             followUp: followUp ? new Date(followUp) : null,
         });
 
-        if (followUp) {
-            lead.followUp = new Date(followUp);
-            await lead.save();
-        }
+        lead.followUp = followUp ? new Date(followUp) : null;
+        await lead.save();
 
         console.log('Discussion created successfully');
         res.status(201).json({ discussion, lead: lead.toObject() });
@@ -33,7 +31,7 @@ router.post('/:leadId', async (req, res) => {
             return res.status(400).json({ message: 'Invalid lead ID' });
         }
         console.log('Error creating discussion:', error.message);
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 
