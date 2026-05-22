@@ -40,7 +40,7 @@ leadflow-crm/
 │       │   ├── LeadCard.jsx        individual lead row
 │       │   ├── LeadList.jsx        full list with filters
 │       │   ├── TimelineDialog.jsx  discussion history popup
-│       │   └── AddLeadForm.jsx     new lead modal
+│       │   └── AddLeadDialog.jsx   new lead modal
 │       ├── services/
 │       │   └── api.js              all backend API calls
 │       └── App.jsx
