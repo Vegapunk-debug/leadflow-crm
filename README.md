@@ -23,7 +23,25 @@ Track leads. Log discussions. Never miss a follow-up.
 </div>
 
 ---
- 
+
+## Table of Contents
+
+* [Overview](#overview)
+* [Features](#features)
+  * [Core](#core)
+  * [Polish](#polish)
+* [Project Structure](#project-structure)
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Option A — Docker](#option-a---docker-recommended)
+  * [Option B — Local Dev](#option-b---local-dev-no-docker)
+* [Environment Variables](#environment-variables)
+* [REST API](#rest-api)
+* [Data Models](#data-models)
+* [AI Usage](#ai-usage)
+
+---
+
 ## Overview
  
 LeadFlow is a single-screen lead management tool that gives sales reps a clear picture of their pipeline at a glance. Every lead, every conversation, every follow-up — all in one place.
