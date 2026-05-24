@@ -12,7 +12,7 @@ services:
     build: ./client
     container_name: leadflow-client
     environment:
-      REACT_APP_API_URL: http://localhost:8001/api
+      VITE_API_URL: http://localhost:8001/api
     ports:
       - "3000:3000"
     depends_on:

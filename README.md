@@ -81,11 +81,11 @@ The UI is hand-built in a light "operator-console" style — Fraunces (display) 
 ```
 leadflow-crm/
 │
-├── client/                              React frontend (Create React App)
+├── client/                              React frontend (Vite)
 │   ├── public/
 │   │   ├── favicon.svg                  brand mark (path-based, scales cleanly)
-│   │   ├── favicon.ico                  multi-resolution fallback (16/32/48/64/128)
-│   │   └── index.html
+│   │   └── favicon.ico                  multi-resolution fallback (16/32/48/64/128)
+│   ├── index.html                       HTML template
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── Header.jsx               wordmark + search + add button
@@ -103,7 +103,7 @@ leadflow-crm/
 │   │   │   └── status.js                STATUSES enum + statusClass mapper
 │   │   ├── App.jsx                      state orchestration
 │   │   ├── index.css                    full theme (variables, layout, motion)
-│   │   └── index.js                     React entry point
+│   │   └── index.jsx                    React entry point
 │   ├── Dockerfile
 │   ├── .dockerignore
 │   ├── .env.example
@@ -190,9 +190,9 @@ npm run dev                   # starts on http://localhost:8001
 
 ```bash
 cd client
-cp .env.example .env          # default REACT_APP_API_URL points at :8001/api
+cp .env.example .env          # default VITE_API_URL points at :8001/api
 npm install
-npm start                     # starts on http://localhost:3000
+npm run dev                   # starts on http://localhost:3000
 ```
 
 ---
@@ -210,7 +210,7 @@ npm start                     # starts on http://localhost:3000
 
 | Variable             | Required | Default                          | Description                          |
 |----------------------|----------|----------------------------------|--------------------------------------|
-| `REACT_APP_API_URL`  | no       | `http://localhost:8001/api`      | Base URL the browser uses for API calls |
+| `VITE_API_URL`       | no       | `http://localhost:8001/api`      | Base URL the browser uses for API calls |
 
 ### Root `.env` (used by `docker-compose`)
 
