@@ -11,6 +11,8 @@
 
 **A lightweight CRM for sales reps who move fast.**  
 Track leads. Log discussions. Never miss a follow-up.
+
+**[Live Demo](https://leadflow-crm-es-magico.vercel.app/)**  | **[Backend API](https://leadflow-crm-server.onrender.com/)**
  
 ---
  
