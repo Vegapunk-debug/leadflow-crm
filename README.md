@@ -13,8 +13,13 @@
 Track leads. Log discussions. Never miss a follow-up.
 
 **[Live Demo](https://leadflow-crm-es-magico.vercel.app/)**  | **[Backend API](https://leadflow-crm-server.onrender.com/)**
- 
+
+<br/>
+
+<img src="lead-flow-crm-ezgif.com-video-to-gif-converter.gif" alt="LeadFlow CRM Demo" width="800" />
+
 ---
+
  
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
