@@ -16,7 +16,7 @@ Track leads. Log discussions. Never miss a follow-up.
 
 <br/>
 
-<img src="lead-flow-crm-ezgif.com-video-to-gif-converter.gif" alt="LeadFlow CRM Demo" width="800" />
+<img src="lead-flow-crm-ezgif.com-video-to-gif-converter.gif" alt="LeadFlow CRM Demo" width="600" />
 
 ---
 
